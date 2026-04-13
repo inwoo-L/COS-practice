@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cm
 #define BIT_VECTOR_LENGTH 4
 #define MSB_INDEX BIT_VECTOR_LENGTH - 1
 #define LSB_INDEX 0
@@ -14,6 +13,13 @@ unsigned int b2u(char *bv);
 int b2s(char *bv);
 int b2o(char *bv);
 int b2t(char *bv);
+
+void bit_addition(char * bv1, char *bv2, char *result);
+unsigned int unsigned_addtion(char *bv1, char *bv2);
+int twos_complement_addition(char *bv1, char *bv2);
+int ones_complement_addition(char *bv1, char *bv2);
+int sign_magnitude_addition(char *bv1, char *bv2);
+
 
 int main(int argc, char *argv[])
 {
@@ -108,8 +114,11 @@ int b2s(char *bv)
 
     for (i = LSB_INDEX; i<=MSB_INDEX-1; i++)
     {
-        ret += bv[i] 2^i;
+        ret += bv[i] pow(2, i);
     }
+
+    if (bv[MSB_INDEX == 1])
+        ret *= (-1);
 
     ret *= (-1)^(bv[MSB_INDEX]);
 
@@ -125,4 +134,60 @@ int b2o(char *bv)
         ret += bv[i] * 2^i;
 
     return ret;
+}
+
+int b2t (char *bv)
+{
+    int ret, i;
+    
+    ret = (-1)*bv*[MSB_INDEX]*pow(2, MSB_INDEX);
+
+    for (i = LSB_INDEX; i <= MSB_INDEX-1; i++){
+        ret += bv[i] * pow(2,i);
+    }
+
+    return ret;
+
+}
+
+void bit_addition(char *bv1, char *bv2, char *result){
+    int i, s, c;
+
+    for (i = LSB_INDEX; i <= MSB_INDEX; i++)
+    {
+        c=0;
+        s = bv1[i]+ bv2[i]+ c;
+
+        if (s==2){
+            s = 0;
+            c = 1;
+        }
+
+        else
+        {
+            c = 0;
+        }
+        result[i] = s;
+
+    }
+    return result;
+}
+
+unsigned int unsigned_addtion(char *bv1, char *bv2)
+{
+    char result[BIT_VECTOR_LENGTH];
+    bit_addition(bv1, bv2, result);
+    return b2u(result);
+}
+
+int twos_complement_addition(char *bv1, *bv2){
+    char result[BIT_VECTOR_LENGTH];
+    bit_addition(bv1, bv2, result);
+    return b2t(result);
+}
+
+int sign_magnitude_addition(char *bv1, *bv2){
+    char result[BIT_VECTOR_LENGTH];
+    bit_addition(bv1, bv2, result);
+    return b2t(result);
 }
