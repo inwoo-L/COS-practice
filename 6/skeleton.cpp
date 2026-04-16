@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+extern "C" int run();
+
 int run(){
     __asm__(
         "movq $100, %rax"
